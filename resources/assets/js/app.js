@@ -17,6 +17,10 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
+Vue.component('users-view', require('./components/UsersView.vue'));
+Vue.component('users-all', require('./components/UsersAll.vue'));
+Vue.component('users-detail', require('./components/UsersDetail.vue'));
+
 const app = new Vue({
     el: '#app'
 });
