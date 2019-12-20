@@ -11,7 +11,7 @@
            </div>
            <div class="panel-body">
                <div v-if="!detail">
-                   <users-all></users-all>
+                   <users-all :detail="detail" @changed_detail="showDetail"></users-all>
                </div>
                <div v-else>
                    <users-detail></users-detail>
@@ -27,6 +27,12 @@ export default {
         return {
             detail: false
         };
+    },
+
+    methods: {
+        showDetail: function(detail){
+            this.detail = detail;
+        }
     }
 }
 </script>

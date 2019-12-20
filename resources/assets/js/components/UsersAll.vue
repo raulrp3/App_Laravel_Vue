@@ -3,7 +3,7 @@
         <ul class="list-group mt-3 mb-5">
             <li v-for="user in users" v-bind:key="user.id" class="list-group-item d-flex justify-content-between align-content-center px-5">
                 <p>{{ user.name}}</p>
-                <a href="" class="btn btn-dark">VER DETALLE</a>
+                <a href="" class="btn btn-dark" @click.prevent="showDetail">VER DETALLE</a>
             </li>
         </ul>
     </div>
@@ -21,6 +21,12 @@ export default {
         axios.get('api/users').then(({data}) => {
             this.users = data.data;
         });
+    },
+
+    methods: {
+        showDetail: function(){
+            this.$emit('changed_detail', true);
+        }
     }
 }
 </script>

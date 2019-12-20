@@ -44837,6 +44837,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             detail: false
         };
+    },
+
+
+    methods: {
+        showDetail: function showDetail(detail) {
+            this.detail = detail;
+            console.log(this.detail);
+        }
     }
 });
 
@@ -44854,7 +44862,16 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "panel-body" }, [
         !_vm.detail
-          ? _c("div", [_c("users-all")], 1)
+          ? _c(
+              "div",
+              [
+                _c("users-all", {
+                  attrs: { detail: _vm.detail },
+                  on: { changed_detail: _vm.showDetail }
+                })
+              ],
+              1
+            )
           : _c("div", [_c("users-detail")], 1)
       ])
     ])
@@ -44971,6 +44988,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             _this.users = data.data;
         });
+    },
+
+
+    methods: {
+        showDetail: function showDetail() {
+            this.$emit('changed_detail', true);
+        }
     }
 });
 
@@ -44997,9 +45021,20 @@ var render = function() {
           [
             _c("p", [_vm._v(_vm._s(user.name))]),
             _vm._v(" "),
-            _c("a", { staticClass: "btn btn-dark", attrs: { href: "" } }, [
-              _vm._v("VER DETALLE")
-            ])
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-dark",
+                attrs: { href: "" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.showDetail($event)
+                  }
+                }
+              },
+              [_vm._v("VER DETALLE")]
+            )
           ]
         )
       }),
