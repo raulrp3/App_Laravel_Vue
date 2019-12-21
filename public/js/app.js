@@ -1072,7 +1072,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(51);
+module.exports = __webpack_require__(52);
 
 
 /***/ }),
@@ -44835,15 +44835,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            detail: false
+            user: null
         };
     },
 
 
     methods: {
-        showDetail: function showDetail(detail) {
-            this.detail = detail;
-            console.log(this.detail);
+        showDetail: function showDetail(user) {
+            this.user = user;
         }
     }
 });
@@ -44861,18 +44860,22 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "panel-body" }, [
-        !_vm.detail
+        !_vm.user
           ? _c(
               "div",
+              [_c("users-all", { on: { show_detail: _vm.showDetail } })],
+              1
+            )
+          : _c(
+              "div",
               [
-                _c("users-all", {
-                  attrs: { detail: _vm.detail },
-                  on: { changed_detail: _vm.showDetail }
+                _c("users-detail", {
+                  attrs: { user: _vm.user },
+                  on: { show_detail: _vm.showDetail }
                 })
               ],
               1
             )
-          : _c("div", [_c("users-detail")], 1)
       ])
     ])
   ])
@@ -44973,11 +44976,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            users: []
+            users: [],
+            search: ''
         };
     },
     created: function created() {
@@ -44992,8 +44997,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
-        showDetail: function showDetail() {
-            this.$emit('changed_detail', true);
+        showDetail: function showDetail(user) {
+            this.$emit('show_detail', user);
+        }
+    },
+
+    computed: {
+        filteredUsers: function filteredUsers() {
+            var _this2 = this;
+
+            return this.users.filter(function (user) {
+                return user.name.toLowerCase().match(_this2.search);
+            });
         }
     }
 });
@@ -45007,10 +45022,32 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.search,
+          expression: "search"
+        }
+      ],
+      staticClass: "form-control my-3",
+      attrs: { type: "text", placeholder: "BUSCAR USUARIO" },
+      domProps: { value: _vm.search },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.search = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
     _c(
       "ul",
       { staticClass: "list-group mt-3 mb-5" },
-      _vm._l(_vm.users, function(user) {
+      _vm._l(_vm.filteredUsers, function(user) {
         return _c(
           "li",
           {
@@ -45029,7 +45066,7 @@ var render = function() {
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    return _vm.showDetail($event)
+                    return _vm.showDetail(user)
                   }
                 }
               },
@@ -45059,9 +45096,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(50)
 /* template */
-var __vue_template__ = __webpack_require__(50)
+var __vue_template__ = __webpack_require__(51)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -45101,13 +45138,77 @@ module.exports = Component.exports
 
 /***/ }),
 /* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['user'],
+
+    methods: {
+        back: function back() {
+            this.$emit('show_detail', null);
+        }
+    }
+});
+
+/***/ }),
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    DETALLE DE USUARIO.\n")])
+  return _c("div", [
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "panel-heading" }, [
+        _c("h2", [_vm._v("Nombre: " + _vm._s(_vm.user.name) + ".")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-body" }, [
+        _c("p", [
+          _vm._v("Correo electrónico: " + _vm._s(_vm.user.email) + ".")
+        ]),
+        _vm._v(" "),
+        _vm.user.is_admin
+          ? _c("p", [_vm._v("Tipo de usuario: Administrador.")])
+          : _c("p", [_vm._v("Tipo de usuario: Usuario.")]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-dark",
+            attrs: { href: "" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.back($event)
+              }
+            }
+          },
+          [_vm._v("VOLVER")]
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45120,7 +45221,7 @@ if (false) {
 }
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

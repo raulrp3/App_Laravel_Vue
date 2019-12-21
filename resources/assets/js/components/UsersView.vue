@@ -10,11 +10,11 @@
                </div>
            </div>
            <div class="panel-body">
-               <div v-if="!detail">
-                   <users-all :detail="detail" @changed_detail="showDetail"></users-all>
+               <div v-if="!user">
+                   <users-all @show_detail="showDetail"></users-all>
                </div>
                <div v-else>
-                   <users-detail></users-detail>
+                   <users-detail :user="user" @show_detail="showDetail"></users-detail>
                </div>
            </div>
        </div>
@@ -25,13 +25,13 @@
 export default {
     data() {
         return {
-            detail: false
+            user: null
         };
     },
 
     methods: {
-        showDetail: function(detail){
-            this.detail = detail;
+        showDetail: function(user){
+            this.user = user;
         }
     }
 }
