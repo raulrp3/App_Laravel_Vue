@@ -6,7 +6,7 @@
                    <h1>USUARIOS.</h1>
                </div>
                <div>
-                   <a href="#" class="btn btn-primary">CREAR USUARIO</a>
+                   <a href="/user" class="btn btn-primary">CREAR USUARIO</a>
                </div>
            </div>
            <div class="panel-body">

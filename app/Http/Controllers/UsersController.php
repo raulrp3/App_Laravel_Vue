@@ -9,4 +9,8 @@ class UsersController extends Controller
     public function index(){
         return view('users.Index');
     }
+
+    public function new(){
+        return view('users.New');
+    }
 }

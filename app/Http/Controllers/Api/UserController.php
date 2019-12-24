@@ -14,4 +14,17 @@ class UserController extends Controller
         
         return UserResource::collection($users);
     }
+
+    public function store(Request $request){
+        $user = $this->validate($request, [
+            'name' => 'required', 
+            'email' => 'required',
+            'password' => 'required',
+            'is_admin' => 'required'
+        ]);
+
+        $user = User::create($user);
+
+        return new UserResource($user);
+    }
 }
