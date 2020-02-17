@@ -44980,6 +44980,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -45002,15 +45005,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         showDetail: function showDetail(user) {
             this.$emit('show_detail', user);
+        },
+        remove: function remove(id) {
+            var _this2 = this;
+
+            var config = {
+                headers: {
+                    "Authorization": "Basic " + localStorage.getItem('auth_token')
+                }
+            };
+            axios.delete('api/users/' + id, config).then(function () {
+                _this2.users = _.remove(_this2.users, function (user) {
+                    return user.id != id;
+                });
+            });
         }
     },
 
     computed: {
         filteredUsers: function filteredUsers() {
-            var _this2 = this;
+            var _this3 = this;
 
             return this.users.filter(function (user) {
-                return user.name.toLowerCase().match(_this2.search);
+                return user.name.toLowerCase().match(_this3.search);
             });
         }
     }
@@ -45061,20 +45078,37 @@ var render = function() {
           [
             _c("p", [_vm._v(_vm._s(user.name))]),
             _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-dark",
-                attrs: { href: "" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.showDetail(user)
+            _c("div", [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-dark",
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.showDetail(user)
+                    }
                   }
-                }
-              },
-              [_vm._v("VER DETALLE")]
-            )
+                },
+                [_vm._v("VER DETALLE")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-danger ml-2",
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.remove(user.id)
+                    }
+                  }
+                },
+                [_vm._v("ELIMINAR")]
+              )
+            ])
           ]
         )
       }),
