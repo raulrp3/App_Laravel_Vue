@@ -44988,13 +44988,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             users: [],
-            search: ''
+            search: '',
+            config: {}
+        };
+    },
+    mounted: function mounted() {
+        this.config = {
+            headers: {
+                "Authorization": "Basic " + localStorage.getItem('auth_token')
+            }
         };
     },
     created: function created() {
         var _this = this;
 
-        axios.get('api/users').then(function (_ref) {
+        axios.get('api/users', this.config).then(function (_ref) {
             var data = _ref.data;
 
             _this.users = data.data;
@@ -45009,12 +45017,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         remove: function remove(id) {
             var _this2 = this;
 
-            var config = {
-                headers: {
-                    "Authorization": "Basic " + localStorage.getItem('auth_token')
-                }
-            };
-            axios.delete('api/users/' + id, config).then(function () {
+            axios.delete('api/users/' + id, this.config).then(function () {
                 _this2.users = _.remove(_this2.users, function (user) {
                     return user.id != id;
                 });
@@ -45363,6 +45366,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 email: null,
                 password: null,
                 is_admin: null
+            },
+            config: {}
+        };
+    },
+    mounted: function mounted() {
+        this.config = {
+            headers: {
+                "Authorization": "Basic " + localStorage.getItem('auth_token')
             }
         };
     },
@@ -45376,7 +45387,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.user.is_admin = this.is_admin[this.user.is_admin];
 
-            axios.post('api/users', this.user).then(function (_ref) {
+            axios.post('api/users', this.user, this.config).then(function (_ref) {
                 var data = _ref.data;
                 return _this.setSuccess();
             }).catch(function (_ref2) {

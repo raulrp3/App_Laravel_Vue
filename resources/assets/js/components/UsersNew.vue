@@ -51,8 +51,17 @@ export default {
                 email: null,
                 password: null,
                 is_admin: null
-            }
+            },
+            config: {},
         }
+    },
+
+    mounted(){
+        this.config = {
+            headers: {
+                "Authorization": "Basic " + localStorage.getItem('auth_token'),
+            }
+        };
     },
 
     methods: {
@@ -61,7 +70,7 @@ export default {
 
             this.user.is_admin = this.is_admin[this.user.is_admin];
 
-            axios.post('api/users', this.user).then(({data}) => this.setSuccess()).catch(({response}) => this.setError(response));
+            axios.post('api/users', this.user, this.config).then(({data}) => this.setSuccess()).catch(({response}) => this.setError(response));
         },
 
         setError(response){

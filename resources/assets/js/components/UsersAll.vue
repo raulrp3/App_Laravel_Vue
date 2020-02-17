@@ -18,12 +18,21 @@ export default {
     data() {
         return {
             users: [],
-            search: ''
+            search: '',
+            config: {}
+        };
+    },
+
+    mounted(){
+        this.config = {
+            headers: {
+                "Authorization": "Basic " + localStorage.getItem('auth_token'),
+            }
         };
     },
 
     created() {
-        axios.get('api/users').then(({data}) => {
+        axios.get('api/users', this.config).then(({data}) => {
             this.users = data.data;
         });
     },
@@ -33,12 +42,7 @@ export default {
             this.$emit('show_detail', user);
         },
         remove: function(id){
-            const config = {
-                headers: {
-                    "Authorization": "Basic " + localStorage.getItem('auth_token'),
-                }
-            };
-            axios.delete('api/users/' + id, config).then(() =>{
+            axios.delete('api/users/' + id, this.config).then(() =>{
                 this.users = _.remove(this.users, function(user){
                     return user.id != id;
                 });
